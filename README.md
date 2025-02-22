@@ -18,17 +18,17 @@ A modern event management platform built with Next.js 14, featuring real-time ev
 
 ## Tech Stack 💻
 
-- **Framework**: Next.js 14 (App Router)
+- **Framework**: [Next.js 14 (App Router)](https://nextjs.org/)
 - **Language**: TypeScript
-- **Auth**: Clerk
+- **Auth**: [Clerk](https://clerk.dev/)
 - **Database**: MongoDB with Mongoose
-- **Styling**: Tailwind CSS
-- **UI Components**: Shadcn UI
-- **Forms**: React Hook Form, Zod
-- **Payments**: Stripe
-- **File Upload**: uploadthing
-- **QR Code**: qrcode.react
-- **PDF Generation**: @react-pdf/renderer
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components**: [Shadcn UI](https://ui.shadcn.com/)
+- **Forms**: [React Hook Form](https://react-hook-form.com/), [Zod](https://zod.dev/)
+- **Payments**: [Stripe](https://stripe.com/)
+- **File Upload**: [uploadthing](https://uploadthing.com/)
+- **QR Code**: [qrcode.react](https://www.npmjs.com/package/qrcode.react)
+- **PDF Generation**: [@react-pdf/renderer](https://react-pdf.org/)
 
 ## Getting Started 🏁
 
@@ -45,7 +45,7 @@ A modern event management platform built with Next.js 14, featuring real-time ev
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/evently.git
+git clone https://github.com/takitajwar17/evently.git
 cd evently
 ```
 
@@ -185,18 +185,8 @@ evently/
 - Automatic payment confirmation
 - Refund handling
 
-## Contributing 🤝
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
 ## License 📝
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Acknowledgments 🙏
-
-- [Next.js](https://nextjs.org/)
-- [Clerk](https://clerk.dev/)
-- [Shadcn UI](https://ui.shadcn.com/)
-- [Stripe](https://stripe.com/)
-- [Uploadthing](https://uploadthing.com/)
+### Thank you 🙏
