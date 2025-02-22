@@ -21,6 +21,103 @@ const extractMentions = (content: string) => {
 };
 
 const populateComment = (query: any) => {
+  const populateOptions = {
+    path: "replies",
+    model: Comment,
+    populate: [
+      {
+        path: "author",
+        model: User,
+        select: "_id firstName lastName username photo",
+      },
+      {
+        path: "mentions",
+        model: User,
+        select: "_id firstName lastName username",
+      },
+      {
+        path: "replies",
+        model: Comment,
+        populate: [
+          {
+            path: "author",
+            model: User,
+            select: "_id firstName lastName username photo",
+          },
+          {
+            path: "mentions",
+            model: User,
+            select: "_id firstName lastName username",
+          },
+          {
+            path: "replies",
+            model: Comment,
+            populate: [
+              {
+                path: "author",
+                model: User,
+                select: "_id firstName lastName username photo",
+              },
+              {
+                path: "mentions",
+                model: User,
+                select: "_id firstName lastName username",
+              },
+              {
+                path: "replies",
+                model: Comment,
+                populate: [
+                  {
+                    path: "author",
+                    model: User,
+                    select: "_id firstName lastName username photo",
+                  },
+                  {
+                    path: "mentions",
+                    model: User,
+                    select: "_id firstName lastName username",
+                  },
+                  {
+                    path: "replies",
+                    model: Comment,
+                    populate: [
+                      {
+                        path: "author",
+                        model: User,
+                        select: "_id firstName lastName username photo",
+                      },
+                      {
+                        path: "mentions",
+                        model: User,
+                        select: "_id firstName lastName username",
+                      },
+                      {
+                        path: "replies",
+                        model: Comment,
+                        populate: [
+                          {
+                            path: "author",
+                            model: User,
+                            select: "_id firstName lastName username photo",
+                          },
+                          {
+                            path: "mentions",
+                            model: User,
+                            select: "_id firstName lastName username",
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  };
+
   return query
     .populate({
       path: "author",
@@ -32,22 +129,7 @@ const populateComment = (query: any) => {
       model: User,
       select: "_id firstName lastName username",
     })
-    .populate({
-      path: "replies",
-      model: Comment,
-      populate: [
-        {
-          path: "author",
-          model: User,
-          select: "_id firstName lastName username photo",
-        },
-        {
-          path: "mentions",
-          model: User,
-          select: "_id firstName lastName username",
-        },
-      ],
-    });
+    .populate(populateOptions);
 };
 
 export async function createComment({
