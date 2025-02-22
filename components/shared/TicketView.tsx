@@ -69,10 +69,11 @@ const styles = StyleSheet.create({
   page: {
     flexDirection: "column",
     backgroundColor: "#FFFFFF",
+    height: "100%",
   },
   banner: {
     width: "100%",
-    height: "35%",
+    height: "25%",
     position: "relative",
   },
   bannerImage: {
@@ -85,77 +86,130 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    padding: 20,
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    height: "40%",
+  },
+  eventTitleContainer: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: "20 40",
   },
   eventTitle: {
-    fontSize: 24,
+    fontSize: 28,
     color: "#FFFFFF",
-    marginBottom: 5,
+    marginBottom: 8,
+    textTransform: "uppercase",
+    letterSpacing: 1,
+    fontWeight: "bold",
   },
   eventSubtitle: {
     fontSize: 14,
     color: "#FFFFFF",
+    letterSpacing: 0.5,
     opacity: 0.9,
   },
   content: {
-    padding: 20,
+    padding: "20 40 0 40",
+    flex: 1,
   },
   row: {
     flexDirection: "row",
-    gap: 20,
+    gap: 40,
     marginBottom: 20,
   },
   column: {
     flex: 1,
   },
   section: {
-    marginBottom: 15,
-    paddingBottom: 10,
-    borderBottom: "0.5pt solid #CCCCCC",
+    marginBottom: 20,
+    paddingBottom: 12,
+    borderBottom: "1pt solid #CCCCCC",
   },
   lastSection: {
-    marginBottom: 15,
+    marginBottom: 20,
   },
   sectionTitle: {
-    fontSize: 12,
-    marginBottom: 8,
-    color: "#666666",
+    fontSize: 14,
+    marginBottom: 12,
+    color: "#1a1a1a",
     textTransform: "uppercase",
+    letterSpacing: 1,
+    borderLeft: "3pt solid #666666",
+    paddingLeft: 8,
     fontWeight: "bold",
   },
-  text: {
+  label: {
     fontSize: 10,
-    marginBottom: 5,
-    color: "#333333",
+    color: "#666666",
+    marginBottom: 2,
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+    marginTop: 8,
+  },
+  value: {
+    fontSize: 12,
+    color: "#1a1a1a",
+    marginBottom: 4,
+    letterSpacing: 0.3,
+    lineHeight: 1.4,
+  },
+  highlight: {
+    fontSize: 13,
+    color: "#1a1a1a",
+    marginBottom: 4,
+    letterSpacing: 0.3,
+    fontWeight: "bold",
+    lineHeight: 1.4,
+  },
+  bottomSection: {
+    width: "100%",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
   qrSection: {
     backgroundColor: "#f8f8f8",
-    padding: 20,
+    padding: "15 40",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: "auto",
+    borderTop: "1pt solid #CCCCCC",
   },
   qrCode: {
     width: 100,
     height: 100,
+    marginRight: 30,
   },
   qrInfo: {
     flex: 1,
-    marginLeft: 20,
+  },
+  qrTitle: {
+    fontSize: 14,
+    color: "#1a1a1a",
+    marginBottom: 8,
+    letterSpacing: 0.5,
+    textTransform: "uppercase",
+    fontWeight: "bold",
   },
   verificationCode: {
-    fontSize: 9,
+    fontSize: 11,
     color: "#666666",
-    marginTop: 5,
+    marginTop: 8,
+    letterSpacing: 1,
+    textTransform: "uppercase",
   },
   footer: {
-    padding: "10 20",
+    padding: "12 40",
     textAlign: "center",
     color: "#666666",
-    fontSize: 8,
-    borderTop: "0.5pt solid #CCCCCC",
+    fontSize: 9,
+    letterSpacing: 0.3,
+    background: "#f8f8f8",
+    borderTop: "1pt solid #CCCCCC",
+    lineHeight: 1.4,
   },
 });
 
@@ -174,9 +228,10 @@ const TicketPDF = ({
           src={ticketDetails.event.imageUrl || "default-event-image.jpg"}
           style={styles.bannerImage}
         />
-        <View style={styles.bannerOverlay}>
+        <View style={styles.bannerOverlay} />
+        <View style={styles.eventTitleContainer}>
           <Text style={styles.eventTitle}>{ticketDetails.event.title}</Text>
-          <Text style={styles.eventSubtitle}>Event Ticket</Text>
+          <Text style={styles.eventSubtitle}>Official Event Ticket</Text>
         </View>
       </View>
 
@@ -185,84 +240,98 @@ const TicketPDF = ({
           <View style={styles.column}>
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Event Details</Text>
-              <Text style={styles.text}>
-                Start:{" "}
+              <Text style={styles.label}>Date & Time</Text>
+              <Text style={styles.highlight}>
                 {formatDateTime(ticketDetails.event.startDateTime).dateTime}
               </Text>
-              <Text style={styles.text}>
-                End: {formatDateTime(ticketDetails.event.endDateTime).dateTime}
+              <Text style={styles.value}>
+                to {formatDateTime(ticketDetails.event.endDateTime).dateTime}
               </Text>
-              <Text style={styles.text}>
-                Location: {ticketDetails.event.location}
+
+              <Text style={styles.label}>Location</Text>
+              <Text style={styles.value}>{ticketDetails.event.location}</Text>
+
+              <Text style={styles.label}>Category</Text>
+              <Text style={styles.value}>
+                {ticketDetails.event.category.name}
               </Text>
-              <Text style={styles.text}>
-                Category: {ticketDetails.event.category.name}
-              </Text>
-              <Text style={styles.text}>
-                Price:{" "}
+
+              <Text style={styles.label}>Ticket Price</Text>
+              <Text style={styles.value}>
                 {ticketDetails.event.isFree
-                  ? "Free"
+                  ? "Free Entry"
                   : `$${ticketDetails.event.price}`}
               </Text>
             </View>
 
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Attendee Information</Text>
-              <Text style={styles.text}>
-                Name: {ticketDetails.buyer.firstName}{" "}
-                {ticketDetails.buyer.lastName}
+              <Text style={styles.label}>Full Name</Text>
+              <Text style={styles.highlight}>
+                {ticketDetails.buyer.firstName} {ticketDetails.buyer.lastName}
               </Text>
-              <Text style={styles.text}>
-                Email: {ticketDetails.buyer.email}
-              </Text>
+
+              <Text style={styles.label}>Email Address</Text>
+              <Text style={styles.value}>{ticketDetails.buyer.email}</Text>
             </View>
           </View>
 
           <View style={styles.column}>
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Order Details</Text>
-              <Text style={styles.text}>Order ID: {ticketDetails._id}</Text>
-              <Text style={styles.text}>
-                Purchase Date:{" "}
+              <Text style={styles.label}>Order Reference</Text>
+              <Text style={styles.value}>{ticketDetails._id}</Text>
+
+              <Text style={styles.label}>Purchase Date</Text>
+              <Text style={styles.value}>
                 {formatDateTime(ticketDetails.createdAt).dateTime}
               </Text>
-              <Text style={styles.text}>
-                Amount Paid: ${ticketDetails.totalAmount}
-              </Text>
+
+              <Text style={styles.label}>Amount Paid</Text>
+              <Text style={styles.highlight}>${ticketDetails.totalAmount}</Text>
             </View>
 
             <View style={styles.lastSection}>
-              <Text style={styles.sectionTitle}>Organizer Information</Text>
-              <Text style={styles.text}>
+              <Text style={styles.sectionTitle}>Event Organizer</Text>
+              <Text style={styles.label}>Contact Person</Text>
+              <Text style={styles.highlight}>
                 {ticketDetails.event.organizer.firstName}{" "}
                 {ticketDetails.event.organizer.lastName}
               </Text>
-              <Text style={styles.text}>
+
+              <Text style={styles.label}>Contact Email</Text>
+              <Text style={styles.value}>
                 {ticketDetails.event.organizer.email}
               </Text>
             </View>
           </View>
         </View>
+      </View>
 
+      <View style={styles.bottomSection}>
         <View style={styles.qrSection}>
           <Image src={qrCodeUrl} style={styles.qrCode} />
           <View style={styles.qrInfo}>
-            <Text style={styles.text}>
-              Scan this QR code at the event entrance
+            <Text style={styles.qrTitle}>Digital Entry Pass</Text>
+            <Text style={styles.value}>
+              Please present this QR code at the event entrance for quick
+              check-in
             </Text>
             <Text style={styles.verificationCode}>
               Verification Code: {ticketDetails._id.slice(-6).toUpperCase()}
             </Text>
           </View>
         </View>
-      </View>
 
-      <View style={styles.footer}>
-        <Text>
-          This ticket is valid for one-time entry. Please present this ticket
-          (digital or printed) at the event entrance.
-        </Text>
-        <Text>Generated on {new Date().toLocaleDateString()}</Text>
+        <View style={styles.footer}>
+          <Text>
+            This is an official event ticket. Valid for one-time entry only.
+            This ticket can be presented digitally or in printed form.
+          </Text>
+          <Text>
+            Generated on {new Date().toLocaleDateString()} • Powered by Evently
+          </Text>
+        </View>
       </View>
     </Page>
   </Document>
