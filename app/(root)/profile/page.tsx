@@ -12,17 +12,19 @@ const ProfilePage = async ({ searchParams }: SearchParamProps) => {
   const { sessionClaims } = auth();
   const userId = sessionClaims?.userId as string;
 
-  const ordersPage = Number(searchParams?.ordersPage) || 1;
-  const eventsPage = Number(searchParams?.eventsPage) || 1;
-
-  const orders = await getOrdersByUser({ userId, page: ordersPage });
-
+  // Remove pagination parameters and fetch all events
+  const orders = await getOrdersByUser({ userId, page: 1, limit: 100 });
   const orderedEvents = orders?.data
     ? orders.data
         .filter((order: IOrder) => order && order.event && order.event._id)
         .map((order: IOrder) => order.event)
     : [];
-  const organizedEvents = await getEventsByUser({ userId, page: eventsPage });
+
+  const organizedEvents = await getEventsByUser({
+    userId,
+    page: 1,
+    limit: 100,
+  });
 
   return (
     <>
@@ -42,10 +44,9 @@ const ProfilePage = async ({ searchParams }: SearchParamProps) => {
           emptyTitle="No event tickets purchased yet"
           emptyStateSubtext="No worries - plenty of exciting events to explore!"
           collectionType="My_Tickets"
-          limit={3}
-          page={ordersPage}
-          urlParamName="ordersPage"
-          totalPages={orders?.totalPages}
+          limit={100}
+          page="1"
+          totalPages={1}
         />
       </section>
 
@@ -65,10 +66,9 @@ const ProfilePage = async ({ searchParams }: SearchParamProps) => {
           emptyTitle="No events have been created yet"
           emptyStateSubtext="Go create some now"
           collectionType="Events_Organized"
-          limit={3}
-          page={eventsPage}
-          urlParamName="eventsPage"
-          totalPages={organizedEvents?.totalPages}
+          limit={100}
+          page="1"
+          totalPages={1}
         />
       </section>
     </>
