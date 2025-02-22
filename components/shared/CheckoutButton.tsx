@@ -52,6 +52,7 @@ const CheckoutButton = ({ event }: { event: IEvent }) => {
   const { user } = useUser();
   const userId = user?.publicMetadata.userId as string;
   const [hasTicket, setHasTicket] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [ticketDetails, setTicketDetails] = useState<ITicketDetails | null>(
     null
   );
@@ -60,13 +61,22 @@ const CheckoutButton = ({ event }: { event: IEvent }) => {
   useEffect(() => {
     const checkTicketPurchase = async () => {
       if (userId) {
-        const hasPurchased = await hasUserPurchasedTicket(event._id, userId);
-        setHasTicket(!!hasPurchased);
+        setIsLoading(true);
+        try {
+          const hasPurchased = await hasUserPurchasedTicket(event._id, userId);
+          setHasTicket(!!hasPurchased);
 
-        if (hasPurchased) {
-          const details = await getTicketDetails(event._id, userId);
-          setTicketDetails(details as ITicketDetails);
+          if (hasPurchased) {
+            const details = await getTicketDetails(event._id, userId);
+            setTicketDetails(details as ITicketDetails);
+          }
+        } catch (error) {
+          console.error("Error checking ticket status:", error);
+        } finally {
+          setIsLoading(false);
         }
+      } else {
+        setIsLoading(false);
       }
     };
 
@@ -88,7 +98,11 @@ const CheckoutButton = ({ event }: { event: IEvent }) => {
           </SignedOut>
 
           <SignedIn>
-            {hasTicket ? (
+            {isLoading ? (
+              <Button disabled className="button rounded-full" size="lg">
+                Checking ticket status...
+              </Button>
+            ) : hasTicket ? (
               ticketDetails && <TicketView ticketDetails={ticketDetails} />
             ) : (
               <Checkout event={event} userId={userId} />
