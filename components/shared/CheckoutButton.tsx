@@ -6,14 +6,13 @@ import {
 } from "@/lib/actions/order.actions";
 import { IEvent } from "@/lib/database/models/event.model";
 import { SignedIn, SignedOut, useUser } from "@clerk/nextjs";
-import { Document } from "mongoose";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import Checkout from "./Checkout";
 import TicketView from "./TicketView";
 
-interface ITicketDetails extends Document {
+interface ITicketDetails {
   _id: string;
   createdAt: Date;
   stripeId: string;

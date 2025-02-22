@@ -24,7 +24,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 
-interface ITicketDetails extends Document {
+interface ITicketDetails {
   _id: string;
   createdAt: Date;
   stripeId: string;
